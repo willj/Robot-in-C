@@ -7,7 +7,7 @@ Original Energia code by Tom Zajdel, University of California, Berkeley.
 This is a port to C (using Keil uVision) for the Texas Instruments TM4C123GXL Launchpad.
 
 Features:
-- ~~beep a bunch of times!~~
+- beep a bunch of times!
 - ~~listen to the microphone~~
 - ~~make a siren sound and dance around a bit~~
 - ~~read the status of photocells and adjust motor output~~
