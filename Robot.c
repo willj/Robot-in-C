@@ -8,23 +8,44 @@ int main (void){
 	
 	initSysTick();
 	initPorts();
+	initMic();
 		
 	while (1){
-		
 		unsigned short i;
+		unsigned short maxval = 0;
+		unsigned short val = 0;
+		
 		// Step 1: beep a bunch of times!
+		
 		for (i=1; i<5; i++)
 		{
 			beep(1000, 100*i);
 			sysTickWaitMilliseconds(100*i);
 		}
 		
+		// Step 2: listen to the microphone for ~100 ms
+
+		for (i=1; i<100; i++){
+			val = readMic();
+			if (val > maxval){
+				maxval = val;
+			}
+			sysTickWaitMilliseconds(1);
+		}
+		
+		if (maxval > MICTHRESH) {
+			// temporary beeps...
+			beep(1000, 100);
+			sysTickWaitMilliseconds(100);
+			beep(1000, 100);
+			sysTickWaitMilliseconds(100);
+			beep(1000, 100);
+		}
 	}
-	
 }
 
-void beep (unsigned short freq, unsigned long ms)	//generate a square wave at a given frequency for ms miliseconds
-{
+//generate a square wave at a given frequency for ms miliseconds
+void beep (unsigned short freq, unsigned long ms) {
 	unsigned long k;
 	unsigned long semiper = (long) (1000000/(freq*2));
 	unsigned long loops = (long)((ms*1000)/(semiper*2));
@@ -38,10 +59,10 @@ void beep (unsigned short freq, unsigned long ms)	//generate a square wave at a 
 	}
 }
 
-void initPorts(void){
+void initPorts (void){
 	volatile unsigned long delay;
 
-	SYSCTL_RCGC2_R |= 0x1C;		// Turn on the clock for Ports C,D,E (00011100 or 28 or 0x1C)
+	SYSCTL_RCGC2_R |= 0x14;		// Turn on the clock for Ports C,E (00010100 or 20 or 0x14)
 	delay = SYSCTL_RCGC2_R;		// This causes a delay to allow the clock to start
 		
 	// Port E
@@ -51,7 +72,7 @@ void initPorts(void){
 	GPIO_PORTE_AMSEL_R &= 0x00;			// Disable analog on Port E (all 8 bits)
 	GPIO_PORTE_PCTL_R &= 0x00; 			// Same again to config as GPIO
 	GPIO_PORTE_DIR_R |= 0x03; 			// Set for PE0, PE1 as outputs
-	GPIO_PORTE_AFSEL_R &= ~(0x03);	// Clear Alt functions in PE0,1
+	GPIO_PORTE_AFSEL_R &= ~0x03;	// Clear Alt functions in PE0,1
 	GPIO_PORTE_DEN_R |= 0x03; 			// SET to enable Digital on PE0,1
 	
 }
