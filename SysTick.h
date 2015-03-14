@@ -6,5 +6,5 @@
 
 void initSysTick(void);
 void sysTickWait(unsigned long delay);
-void sysTickWaitMicroseconds(unsigned long delay);
-void sysTickWaitMilliseconds(unsigned long delay);
+void delayMicroseconds(unsigned long delay);
+void delayMilliseconds(unsigned long delay);
