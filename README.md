@@ -10,5 +10,5 @@ Features:
 - beep a bunch of times!
 - listen to the microphone
 - ~~make a siren sound and dance around a bit~~
-- ~~read the status of photocells and adjust motor output~~
+- read the status of photocells and adjust motor output
 

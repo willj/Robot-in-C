@@ -409,11 +409,6 @@
               <FilePath>C:\Keil\ARM\Startup\TI\TM4C123\system_TM4C123.c</FilePath>
             </File>
             <File>
-              <FileName>TM4C123GH6PM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Keil\ARM\INC\TI\TM4C123\TM4C123GH6PM.h</FilePath>
-            </File>
-            <File>
               <FileName>SysTick.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\SysTick.c</FilePath>
@@ -432,11 +427,6 @@
               <FileName>Motors.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Motors.c</FilePath>
-            </File>
-            <File>
-              <FileName>Motors.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Motors.h</FilePath>
             </File>
           </Files>
         </Group>

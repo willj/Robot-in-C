@@ -22,12 +22,10 @@
 #define GPIO_PORTE_AMSEL_R      (*((volatile unsigned long *)0x40024528))
 #define GPIO_PORTE_PCTL_R       (*((volatile unsigned long *)0x4002452C))
 
-//#define PBLOCK  GPIO_PORTE_DATA_R &0x02 //PE_1
-#define BUZZER 									(*((volatile unsigned long *)0x40024004)) //PE_0
-//#define LMOTOR  PC_6
-//#define RMOTOR  PC_7
-//#define LPHOTO  PE_4
-//#define RPHOTO  PE_5
+#define BUZZER                  (*((volatile unsigned long *)0x40024004)) // PE_0
+#define PBLOCK                  (*((volatile unsigned long *)0x40024008)) // PE_1
+#define LPHOTO                  (*((volatile unsigned long *)0x40024040)) // PE_4
+#define RPHOTO                  (*((volatile unsigned long *)0x40024080)) // PE_5
 
 #define MICTHRESH 2400 // set microphone trigger threshold (possible values 0-4096)
 

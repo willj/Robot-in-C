@@ -29,7 +29,7 @@ int main (void){
 		}
 		
 		// Step 2: listen to the microphone for ~100 ms
-
+    
 		for (i=1; i<100; i++){
 			val = readMic();
 			if (val > maxval){
@@ -52,6 +52,23 @@ int main (void){
 			delayMilliseconds(100);
 			beep(1000, 100);
 		}
+		
+		// Step 3: read the status of photocells and adjust motor output
+		
+		PBLOCK = 0x02;                 // Turn on the powerblock to photocells & amp
+		delayMicroseconds(20);         // delay for the circuit to settle
+		
+		if (LPHOTO){
+			leftMotor(1);
+		}
+		
+		if (RPHOTO){
+			rightMotor(1);
+		}
+		
+		PBLOCK = 0x00;                 // Turn off the power
+		
+		delayMilliseconds(500);
 	}
 }
 
@@ -63,10 +80,10 @@ void beep (unsigned short freq, unsigned long ms) {
 	
 	for (k=0;k<loops;k++)
 	{
-		BUZZER = 1; //set buzzer pin high
+		BUZZER = 0x01; //set buzzer pin high
 		delayMicroseconds(semiper);     //for half of the period
 		
-		BUZZER = 0;	//set buzzer pin low
+		BUZZER = 0x00;	//set buzzer pin low
 		delayMicroseconds(semiper);    //for the other half of the period
 	}
 }
@@ -80,11 +97,14 @@ void initPorts (void){
 	// Port E
 	// PE0 for Buzzer - Digital Out.
 	// PE1 for Power Block - Digital Out.
+	// PE4 for left photo sensor - Digital In
+	// PE5 for left photo sensor - Digital In
 	
 	GPIO_PORTE_AMSEL_R &= 0x00;     // Disable analog on Port E (all 8 bits)
 	GPIO_PORTE_PCTL_R &= 0x00;      // Same again to config as GPIO
-	GPIO_PORTE_DIR_R |= 0x03;       // Set for PE0, PE1 as outputs
-	GPIO_PORTE_AFSEL_R &= ~0x03;    // Clear Alt functions in PE0,1
-	GPIO_PORTE_DEN_R |= 0x03;       // SET to enable Digital on PE0,1
+	GPIO_PORTE_DIR_R |= 0x03;       // Set PE0, PE1 as outputs
+	GPIO_PORTE_DIR_R &= ~(0x30);    // Clear PE4, PE5 for use as inputs
+	GPIO_PORTE_AFSEL_R &= ~0x33;    // Clear Alt functions in PE0,1,4,5
+	GPIO_PORTE_DEN_R |= 0x33;       // SET to enable Digital on PE0,1,4,5
 	
 }
