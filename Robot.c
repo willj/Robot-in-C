@@ -40,17 +40,32 @@ int main (void){
 		
 		if (maxval > MICTHRESH) {
 			
-			// temporary motoring...
-			leftMotor(1);
-			rightMotor(1);
-			delayMilliseconds(500);
+			// Make the "siren" noise by alternating 1200 Hz and 800 Hz tones
+			for (i=0; i<5; i++)
+			{
+					beep(1200, 100);
+					beep(800,  100);
+			}
 			
-			// temporary beeps...
-			beep(1000, 100);
-			delayMilliseconds(100);
-			beep(1000, 100);
-			delayMilliseconds(100);
-			beep(1000, 100);
+			// Shake motors back and forth rapidly
+			for (i=0; i<3; i++)
+			{
+					rightMotor(1);
+					delayMilliseconds(200);
+					rightMotor(0);
+					leftMotor(1);
+					delayMilliseconds(200);
+					leftMotor(0);
+			}
+			// Make a series of tones with increasing frequency from 300-100 Hz
+			// then come back down
+			for (i=30; i<100; i+=1){
+				beep(10*i, 10);
+			}
+			
+			for (i=100; i>30; i-=1){
+				beep(10*i, 10);
+			}
 		}
 		
 		// Step 3: read the status of photocells and adjust motor output
@@ -103,7 +118,7 @@ void initPorts (void){
 	GPIO_PORTE_AMSEL_R &= 0x00;     // Disable analog on Port E (all 8 bits)
 	GPIO_PORTE_PCTL_R &= 0x00;      // Same again to config as GPIO
 	GPIO_PORTE_DIR_R |= 0x03;       // Set PE0, PE1 as outputs
-	GPIO_PORTE_DIR_R &= ~(0x30);    // Clear PE4, PE5 for use as inputs
+	GPIO_PORTE_DIR_R &= ~0x30;      // Clear PE4, PE5 for use as inputs
 	GPIO_PORTE_AFSEL_R &= ~0x33;    // Clear Alt functions in PE0,1,4,5
 	GPIO_PORTE_DEN_R |= 0x33;       // SET to enable Digital on PE0,1,4,5
 	
